@@ -1,0 +1,46 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: lab2
+---
+apiVersion: v1
+kind: ResourceQuota
+metadata:
+  name: xlimit
+  namespace: lab2
+spec:
+  hard:
+    cpu: "1"
+    memory: 1G
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: restrictednginx
+  name: restrictednginx
+  namespace: lab2
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: restrictednginx
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: restrictednginx
+    spec:
+      containers:
+      - image: nginx
+        name: nginx
+        resources:
+          requests:
+            memory: "64Mi"
+            cpu: "125m"
+          limits:
+            memory: "256Mi"
+            cpu: "250m"

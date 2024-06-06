@@ -1,0 +1,39 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: newspace
+spec: {}
+---
+apiVersion: v1
+kind: ResourceQuota
+metadata:
+  name: skyisthelimit
+  namespace: newspace
+spec:
+  hard:
+    cpu: "2"
+    memory: 1G
+    pods: "2"
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    run: choke
+  name: choke
+  namespace: newspace
+spec:
+  containers:
+  - image: nginx
+    name: choke
+    resources:
+      requests:
+        memory: "64Mi"
+        cpu: "250m"
+      limits:
+        memory: "128Mi"
+        cpu: "500m"
+  dnsPolicy: ClusterFirst
+  restartPolicy: Always
+
