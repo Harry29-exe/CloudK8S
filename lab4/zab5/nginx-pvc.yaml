@@ -1,0 +1,27 @@
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: lab4-volume
+  namespace: app4
+spec:
+  storageClassName: standard
+  capacity:
+    storage: 700Mi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "~/data"
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: lab4-claim
+  namespace: app4
+spec:
+  storageClassName: standard
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 70Mi
